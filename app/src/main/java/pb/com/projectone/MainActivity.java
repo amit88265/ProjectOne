@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onPlaceSelected(Place place) {
 
+                markPosition=place.getLatLng();
                 //Building the camera position
                 CameraPosition position = CameraPosition.builder()
                         .target(place.getLatLng())
