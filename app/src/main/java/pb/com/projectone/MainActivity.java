@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap mGoogleMap;
     private LatLng markPosition = null;
     String str = "";
+    PlaceAutocompleteFragment autocompleteFragment;
 
 
     @Override
@@ -47,35 +48,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
 
         //Getting place auto complete fragment fragment to java
-        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+        autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
-        //Setting the listener to the fragment auto complete fragment
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-
-                markPosition=place.getLatLng();
-                //Building the camera position
-                CameraPosition position = CameraPosition.builder()
-                        .target(place.getLatLng())
-                        .zoom(15)
-                        .bearing(30)
-                        .tilt(45).build();
-
-                mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(position), 1000, null);
-
-                //Adding the marker
-                mGoogleMap.addMarker(new MarkerOptions().position(place.getLatLng()));
-                //starting service to reverse geocode the searched place
-                startIntentService(place.getLatLng());
-            }
-
-            @Override
-            public void onError(Status status) {
-                Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
 
@@ -84,20 +59,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mGoogleMap = googleMap;
 
         //Setting the  initial camera position
-        LatLng delhi = new LatLng(28.4968596, 77.0782323);
+        markPosition = new LatLng(28.4968596, 77.0782323);
         CameraPosition position = CameraPosition.builder()
-                .target(delhi)
+                .target(markPosition)
                 .zoom(15)
                 .bearing(30)
                 .tilt(45).build();
         mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(position));
 
-//Setting the map on click listener
+        //Setting the map on click listener
         mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
                 mGoogleMap.clear();
                 markPosition = latLng;
+                mGoogleMap.addMarker(new MarkerOptions().position(markPosition).draggable(true));
                 //starting the service to reverse geocode the location
                 startIntentService(markPosition);
             }
@@ -116,6 +92,52 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 TextView info = v.findViewById(R.id.infoWindow);
                 info.setText(str);
                 return v;
+            }
+        });
+
+
+        mGoogleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+            @Override
+            public void onMarkerDragStart(Marker marker) {
+                //need to hide as you drag marker to new position
+                marker.hideInfoWindow();
+            }
+
+            @Override
+            public void onMarkerDrag(Marker marker) {
+                //no use as of now
+            }
+
+            @Override
+            public void onMarkerDragEnd(Marker marker) {
+                markPosition = marker.getPosition();
+                startIntentService(markPosition);
+            }
+        });
+
+        //Setting the listener to the fragment auto complete fragment
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+
+                markPosition = place.getLatLng();
+                //Building the camera position
+                CameraPosition position = CameraPosition.builder()
+                        .target(place.getLatLng())
+                        .zoom(15)
+                        .bearing(30)
+                        .tilt(45).build();
+
+                mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(position), 1000, null);
+
+                mGoogleMap.addMarker(new MarkerOptions().position(markPosition).draggable(true));
+                //starting service to reverse geocode the searched place
+                startIntentService(place.getLatLng());
+            }
+
+            @Override
+            public void onError(Status status) {
+                Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -144,8 +166,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Toast.makeText(MainActivity.this, "no address found", Toast.LENGTH_SHORT).show();
             }
             if (resultCode == 1) {
-
-                mGoogleMap.addMarker(new MarkerOptions().position(markPosition));
                 str = resultData.getString(Constants.SEND_RESULT);
             }
         }
