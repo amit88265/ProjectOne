@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -34,8 +36,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private GoogleMap mGoogleMap;
     private LatLng markPosition = null;
+    private Button DetailedAddress;
     String str = "";
     PlaceAutocompleteFragment autocompleteFragment;
+    HashMap<String, String> hashMap = new HashMap<>();
 
 
     @Override
@@ -50,7 +54,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //Getting place auto complete fragment fragment to java
         autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+        DetailedAddress = findViewById(R.id.send_details);
 
+
+        DetailedAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+                intent.putExtra(Constants.SEND_ADDRESS_DETAILS, hashMap);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -167,6 +181,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
             if (resultCode == 1) {
                 str = resultData.getString(Constants.SEND_RESULT);
+                hashMap = (HashMap<String, String>) resultData.getSerializable(Constants.ADDESS_DETAILS);
+
             }
         }
     }

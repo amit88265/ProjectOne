@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">ProjectOne</string>
     <string name="_hint">search</string>
+    <string name="go">Go</string>
 </resources>
