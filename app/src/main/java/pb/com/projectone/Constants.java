@@ -16,4 +16,7 @@ public final class Constants {
     public final static String POSTAL_CODE = PACKAGE_NAME + ".POSTAL_CODE";
     public final static String ADDESS_DETAILS = PACKAGE_NAME + ".ADDRESS_DETAILS";
     public final static String SEND_ADDRESS_DETAILS = PACKAGE_NAME + ".SEND_ASSRESS_DETAILS";
+    public final static String FEATURE = PACKAGE_NAME + ".FEATURE";
+    public final static String GET_THROUGH_FARE = PACKAGE_NAME + ".GET_THROUGH_FARE";
+    public final static String SUB_LOCALITY = PACKAGE_NAME + ".SUB_LOCALITY";
 }

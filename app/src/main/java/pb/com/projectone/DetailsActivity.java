@@ -24,7 +24,8 @@ public class DetailsActivity extends AppCompatActivity {
                 "\nCountry :" + map.get(Constants.COUNTRY) +
                 "\nPostal Code :" + map.get(Constants.POSTAL_CODE) +
                 "\nLatitude :" + map.get(Constants.LATITUDE) +
-                "\nLongitude :" + map.get(Constants.LONGITUDE));
+                "\nLongitude :" + map.get(Constants.LONGITUDE)+
+                "\nAddress :"+map.get(Constants.FEATURE)+","+map.get(Constants.GET_THROUGH_FARE)+","+map.get(Constants.SUB_LOCALITY));
 
 
     }

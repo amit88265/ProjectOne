@@ -57,6 +57,9 @@ public class GetAddressIntentService extends IntentService {
             map.put(Constants.LATITUDE, String.valueOf(address.getLatitude()));
             map.put(Constants.LONGITUDE, String.valueOf(address.getLongitude()));
             map.put(Constants.POSTAL_CODE, address.getPostalCode());
+            map.put(Constants.FEATURE,address.getFeatureName());
+            map.put(Constants.GET_THROUGH_FARE,address.getThoroughfare());
+            map.put(Constants.SUB_LOCALITY,address.getSubLocality());
 
 
             Log.d("vivz", "AdminArea" + address.getAdminArea() + " \nextra " + address.getExtras() + " \nfeature name" + address.getFeatureName()
