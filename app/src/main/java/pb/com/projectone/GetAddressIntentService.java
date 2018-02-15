@@ -45,7 +45,6 @@ public class GetAddressIntentService extends IntentService {
         }
 
         if (mAddress == null || mAddress.size() == 0) {
-
             sendResult(Constants.FAILURE_RESULT, "No address found");
 
         } else {
@@ -57,19 +56,19 @@ public class GetAddressIntentService extends IntentService {
             map.put(Constants.LATITUDE, String.valueOf(address.getLatitude()));
             map.put(Constants.LONGITUDE, String.valueOf(address.getLongitude()));
             map.put(Constants.POSTAL_CODE, address.getPostalCode());
-            map.put(Constants.FEATURE,address.getFeatureName());
-            map.put(Constants.GET_THROUGH_FARE,address.getThoroughfare());
-            map.put(Constants.SUB_LOCALITY,address.getSubLocality());
+            map.put(Constants.FEATURE, address.getFeatureName());
+            map.put(Constants.GET_THROUGH_FARE, address.getThoroughfare());
+            map.put(Constants.SUB_LOCALITY, address.getSubLocality());
 
-
-            Log.d("vivz", "AdminArea" + address.getAdminArea() + " \nextra " + address.getExtras() + " \nfeature name" + address.getFeatureName()
-                    + "\nlocality " +
-                    address.getLocality() + " \npremises" + address.getPremises() + "\nsub admin area " + address.getSubAdminArea()
-                    + " \nsub locality" + address.getSubLocality() + " \nget through fare" + address.getThoroughfare());
+            /*
+             *        Log.d("vivz", "AdminArea" + address.getAdminArea() + " \nextra " + address.getExtras() + " \nfeature name" + address.getFeatureName()
+             *        + "\nlocality " +
+             *         address.getLocality() + " \npremises" + address.getPremises() + "\nsub admin area " + address.getSubAdminArea()
+             *         + " \nsub locality" + address.getSubLocality() + " \nget through fare" + address.getThoroughfare());
+            */
 
 
             String[] adr = address.getAddressLine(0).split(",");
-
 
             String str = "";
             for (String s : adr) {
