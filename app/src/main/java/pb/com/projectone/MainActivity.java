@@ -137,8 +137,8 @@ public boolean isOnline(){
     private void setTheAddressDialog() {
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
         builder.setMessage(str)
-                .setTitle("YOUR ADDRESS")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setTitle(R.string.your_address)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
@@ -146,7 +146,7 @@ public boolean isOnline(){
                         startActivity(intent);
                     }
                 })
-                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -157,9 +157,9 @@ public boolean isOnline(){
 
     private void InternetConnectionDialog(){
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
-        builder.setMessage("Please check your internet connection and try again")
-                .setTitle("NO INTERNET CONNECTION")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.internet_msg)
+                .setTitle(R.string.no_internet_connection)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         finish();
